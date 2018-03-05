@@ -1,0 +1,11 @@
+*.*~
+*.bbl
+/main.blg
+/main.log
+/main.pdf
+/main.run.xml
+/main.bcf
+/cluster.htc
+/cluster.sh
+/script.py
+/main.aux

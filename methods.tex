@@ -1,0 +1,90 @@
+\subsection{Datasets}
+
+For this analysis we limit ourselves to motor imagery paradigms, and further to only right hand versus left hand imagined imagery. Even with these limitations, we have six datasets:
+
+\begin{itemize}
+\item AlexEEG\cite{Barachant2012a}
+\item GigaDB \cite{Cho2017}
+\item Physionet\cite{Schalk2004,Goldberger2000} 
+\item BNCI2020
+\item BBCI \cite{Blankertz2007,Shin2017}
+\end{itemize}
+
+While the current paper only shows results on a subset of these datasets, adding new datasets that can be found on the internet is simple. The MNE toolkit (CITE) is used for all preprocessing and channel selection, so any dataset that can be made compatible with their framework can quickly be added to the set of data offered by this project.
+\subsection{Paradigms}
+
+Given a dataset and the decision to use right and left hand imagery, there are
+still many parameters that can affect the score, such as the time of the trial,
+the number and location of channels, preprocessing, and even the pipeline's
+test-set metric (AUC score, f-score, Cohen's kappa, etc). These need to be kept
+constant over any meta-analysis such as the one we attempt here. In order to
+display the capabilities of the system, we limit our analyses to answering two questions:
+how electrodes differ across datasets, and whether algorithms that perform better in within-subject analyses also perform better across-subjects.
+
+\subsubsection{Electrode differences}
+Much literature has been devoted to differences in electrode quality and how those affect BCI results, but there has to date not been a large enough study to see what broad effects exist. With the amount of datasets gathered here, however, we can make a statement -- and so we run all our pipelines using all channels, but also restricting ourselves to C3 and C4 in each dataset, to see how differently they perform in this situation.
+
+\subsubsection{Validation strategies}
+It is well-known that cross-subject and cross-day analyses are more difficult
+than within-subject and within-session, but when comparing pipelines it is
+unclear whether the same pipelines that are effective within-subject work well
+cross-subject. As three of the datasets in the list have over 20 subjects in
+them, we can look at this question empirically.
+
+
+\subsection{Algorithms}
+
+Once all questions of paradigm and preprocessing are answered, it is time to
+look at algorithms. We define a \emph{pipeline} as the processing that takes one
+from raw trialwise data into labels, taking both spatial filtering and
+classification model fitting into account.  In this paper we focus on displaying
+the possibilities of this framework, and not on presenting any novel one. One
+such possibility is to settle once and for all the question of which well-known
+algorithms are most effective for a given number of samples and channels
+(leaving aside more specialized approaches for now). To that end, we compare the
+following pipelines:
+
+\begin{itemize}
+\item Regularized CSP  + LDA, SVM. \\
+  As \cite{Lotte2011} show, regularizing the CSP loss function via Tikhonov
+  regularization is a simple method for more robust results that maintains the
+  ease of use and dimensionality reduction inherent to CSP. To classify after
+  the spatial filtering, the two most standard approaches are Linear
+  Discriminant Analysis and a Support Vector Machine.
+\item Channel-level bandpower + LDA, SVM \\
+  CSP is known to overfit, and so one way of attempting to get more robust results is to consider the channel-level variances and simply build a classifier on top of those. 
+\item Tangent space classification\\
+  (TODO)
+\end{itemize}
+
+\subsection{Automated Statistical Pipeline}
+\label{stats}
+Different datasets have differing numbers of subjects and trials, as well as possibly differing trial periods and feedback, requiring a multi-step statistical analysis to attempt to order the tested pipelines. The goal of the analysis is to determine which pipeline performs best, and where, as well as which algorithms are not distinguishable from each other. In order to do this we implemented a two-step procedure: First, the scores per dataset for a given paradigm and evaluation are statistically tested in order to see whether there are significant differences between algorithms. If there are, we conduct post-hoc tests to test the ordering of algorithms. The specific steps are as follows:
+
+(todo: make a figure with a flowchart)
+
+\begin{enumerate}
+\item Within each dataset:
+  \begin{enumerate}
+  \item Run a repeated-measurements ANOVA (CITE?) over all pipelines to
+    determine how likely it is that there is a difference in average performance
+    between all the pipelines.
+  \item If the p-value is small enough, order the pipelines by mean
+    performance. For each distribution of score differences (e.g. score for best
+    mean pipeline minus score for second-best, second-best minus third-best,
+    etc) compute a permutation-based, paired-sample t-test to
+    determine whether the distributional mean is significantly greater than
+    zero.
+  \item Return, for each dataset, the set of algorithms with maximum performance
+    that are not statistically different from each other
+  \end{enumerate}
+\item Display the percentage of the time each algorithm is indistinguishable
+  from the algorithm of best performance.
+\end{enumerate}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main.tex"
+%%% End:

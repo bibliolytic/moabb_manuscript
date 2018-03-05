@@ -1,0 +1,65 @@
+\documentclass[journal]{IEEEtran}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+% \usepackage[style=ieee,backend=bibtex]{biblatex}
+\title{MOABB: Trustworthy algorithm benchmarking for BCIs}
+\author{
+  \IEEEauthorblockN
+  {
+    Vinay Jayaram\IEEEauthorrefmark{1}\IEEEauthorrefmark{2},
+    Alexandre Barachant\IEEEauthorrefmark{3}
+  }
+
+  \IEEEauthorblockA
+  {
+    \IEEEauthorrefmark{1}
+    Max Planck Institute for Intelligent Systems, 
+    Department Empirical Inference, 
+    T\"{u}bingen, Germany \\
+    Email: vjayaram@tue.mpg.de}
+  
+  \IEEEauthorblockA
+  {
+    \IEEEauthorrefmark{2}
+    IMPRS for Cognitive and Systems Neuroscience, 
+    University of T\"{u}bingen, 
+    T\"{u}bingen, Germany \\
+  }
+  \IEEEauthorblockA
+  {
+    \IEEEauthorrefmark{3}
+    Hertie Institute for Clinical Brain Research,
+    Hoppe-Seyler-Str. 3,
+    T\"{u}bingen, Germany \\
+    Email:jennifer.just@uni-tuebingen.de
+  }
+}
+\begin{document}
+\maketitle
+\begin{abstract}
+  \input{abstract.tex}
+\end{abstract}
+\section{Introduction}
+\input{introduction.tex}
+\section{Methods}
+\input{methods.tex}
+\section{Results}
+\input{results.tex}
+\section{Discussion}
+\input{discussion.tex}
+\bibliographystyle{IEEEtran}
+\bibliography{library.bib}
+\blfootnote{corresponding author: Vinay Jayaram (email: vjayaram@tue.mpg.de)}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

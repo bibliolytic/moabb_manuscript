@@ -1,0 +1,16 @@
+We present a system for reliably comparing BCI algorithms that is both easily
+extended to incorporate new datasets and equipped with an automatic statistical
+pipeline for determining which algorithms perform best. Furthermore, this system
+defines a simple interface for submitting and validating new BCI algorithms,
+which could serve to unify the many methods that exist so far. To test that
+system, we present results using standard algorithms in contexts that have wide
+relevance to the BCI community. By looking across multiple, large datasets, it is possible to make statements about how BCIs perform on average, without any sort of expert tuning of the processing chain, and further to see where the major pitfalls still lie.
+
+Based on the data, it is clear that the major problem comes in
+subject-to-subject transfer. With the tangent space method, within-session
+results are quite high, far outstripping the traditional 70\% barrier defined
+for usability (CITE). It does not, however, come without its drawbacks -- looking at the timing plots, it is clear that the increase in time is superlinear to the increase in input data. 
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
