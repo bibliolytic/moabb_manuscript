@@ -1,64 +1,90 @@
+Any BCI analysis is defined by three things: A dataset, a context, and a processing pipeline. Here we describe how all of these components are dealt with within our pipeline, and how specifically we set the options for the initial analyses presented here. 
+
 \subsection{Datasets}
 
-For this analysis we limit ourselves to motor imagery paradigms, and further to only right hand versus left hand imagined imagery. Even with these limitations, we have five datasets:
+Public BCI datasets exist for a wide range of user paradigms and recording
+conditions, from continuous usage to single-session to
+multiple-sessions-per-subject. Within the current MOABB project, we have unified
+the access to many datasets:
+
 
 \begin{itemize}
 \item GigaDB \cite{Cho2017}
 \item Physionet\cite{Schalk2004,Goldberger2000} 
 \item BNCI2020
 \item BBCI \cite{Blankertz2007,Shin2017}
+\item (the other BNCI2020 datasets)
+\item INRIA's data
+\item (?)
 \end{itemize}
 
-While the current paper only shows results on a subset of these datasets, adding new datasets that can be found on the internet is simple. The MNE toolkit (CITE) is used for all preprocessing and channel selection, so any dataset that can be made compatible with their framework can quickly be added to the set of data offered by this project.
-\subsection{Paradigms}
+Adding new datasets that can be found on the internet is also simple. The MNE toolkit\cite{Gramfort2014,Gramfort2013} is used for all preprocessing and channel selection, so any dataset that can be made compatible with their framework can quickly be added to the set of data offered by this project.
 
-Given a dataset and the decision to use right and left hand imagery, there are
-still many parameters that can affect the score, such as the time of the trial,
-the number and location of channels, preprocessing, and even the pipeline's
-test-set metric (AUC score, f-score, Cohen's kappa, etc). These need to be kept
-constant over any meta-analysis such as the one we attempt here. In order to
-display the capabilities of the system, we limit our analyses to answering two questions:
-how electrodes differ across datasets, and whether algorithms that perform better in within-subject analyses also perform better across-subjects.
+\subsection{Context}
 
-\subsubsection{Electrode differences}
-Much literature has been devoted to differences in electrode quality and how those affect BCI results, but there has to date not been a large enough study to see what broad effects exist. With the amount of datasets gathered here, however, we can make a statement -- and so we run all our pipelines using all channels, but also restricting ourselves to C3 and C4 in each dataset, to see how differently they perform in this situation.
+A \emph{context} is the set of characteristics that defines the preprocessing
+and validation procedure. To go from a recorded EEG time-series to a pipeline
+performance value for a given subject or recording session, many parameters must
+be defined. Trials need to be cut out of the continuous signal and
+pre-processed, and this is possible in many different ways when taking into
+parameters such as trial overlap, trial length, imagery type, and more. Once the
+continuous data is processed into trials, and these trials are fed into a
+pipeline, the question of how to create training and test sets, and how to
+report performance, comes into play. We separate these two notions in our
+software and call them the \emph{paradigm} and the \emph{evaluation}
+respectively.
 
-\subsubsection{Validation strategies}
-It is well-known that cross-subject and cross-day analyses are more difficult
-than within-subject and within-session, but when comparing pipelines it is
-unclear whether the same pipelines that are effective within-subject work well
-cross-subject. As three of the datasets in the list have over 20 subjects in
-them, we can look at this question empirically.
+\subsubsection{Paradigm}
 
+A paradigm defines how one goes from continuous data to trials for a standard
+machine learning algorithm to deal with. While not an issue in image processing,
+it is crucial in EEG and biosignals processing because most datasets do not have
+exactly the same events defined in the continuous data. For example, many motor
+imagery sets use a single hand versus both feet imagery, or a single class
+versus rest; likewise there are many non-motor imageries possible. For any
+reasonable analysis the specific sort of imagery or ERP must be controlled for,
+as they all have different characteristics in the data and further are variably
+effective across subjects\cite{Scherer2015}. After choosing which events or
+imageries are valid, the question comes to pre-processing of the continuous
+data, in the form of ICA cleaning, bandpass filtering, and so on. These must
+also be identical for valid comparisons across datasets. Lastly, there are
+questions of how to cut the data into trials: What is the trial length and
+overlap; or, in the case of ERP paradigms, how long before and after the event
+marker do we use? The answers to all these questions are summed up in the
+paradigm object.
 
-\subsection{Algorithms}
+\subsubsection{Evaluation}
 
-Once all questions of paradigm and preprocessing are answered, it is time to
-look at algorithms. We define a \emph{pipeline} as the processing that takes one
-from raw trialwise data into labels, taking both spatial filtering and
-classification model fitting into account.  In this paper we focus on displaying
-the possibilities of this framework, and not on presenting any novel one. One
-such possibility is to settle once and for all the question of which well-known
-algorithms are most effective for a given number of samples and channels
-(leaving aside more specialized approaches for now). To that end, we compare the
-following pipelines:
+Once the data is split into trials and a pipeline is fixed, there are many ways to train and test this pipeline to minimize overfitting. For datasets with multiple subjects recorded on multiple days, we may want to determine which algorithm functions best in multi-day classification. Or, we may want to determine which algorithm is best for small amounts of data. It is easy to see that there are many possibilities for splitting data into train and test sets, and these must be fixed identically for a given analysis. Furthermore, there is the question of how to report results. Multiclass problems cannot use metrics like the ROC-AUC which provide unbiased estimates of classifier goodness in binary cases; depending on things like the class discrepancy, various metrics have various benefits and pitfalls. Therefore this must also be fixed across all datasets, contingent on the class of predictions the pipelines attempt to make. We define this as our \emph{evaluation}.
 
-\begin{itemize}
-\item Regularized CSP  + LDA, SVM. \\
-  As \cite{Lotte2011} show, regularizing the CSP loss function via Tikhonov
-  regularization is a simple method for more robust results that maintains the
-  ease of use and dimensionality reduction inherent to CSP. To classify after
-  the spatial filtering, the two most standard approaches are Linear
-  Discriminant Analysis and a Support Vector Machine.
-\item Channel-level bandpower + LDA, SVM \\
-  CSP is known to overfit, and so one way of attempting to get more robust results is to consider the channel-level variances and simply build a classifier on top of those. 
-\item Tangent space classification\\
-  (TODO)
-\end{itemize}
+\subsection{Pipeline}
 
-\subsection{Automated Statistical Pipeline}
+We define a \emph{pipeline} as the processing that takes one from raw trial-wise
+data into labels, taking both spatial filtering and classification model fitting
+into account. A convenient API for dealing with this kind of processing is
+defined by scikit-learn\cite{Pedregosa2011}, which allows for easily definable
+dimensionality reduction, feature generation, and model fitting. To maximize reproducibility we allow pipelines to be defined either by yaml files or through python files that generate the objects, but force all machine learning models to follow the scikit-learn interface. 
+
+\section{Automated Statistical Analysis}
 \label{stats}
-Different datasets have differing numbers of subjects and trials, as well as possibly differing trial periods and feedback, requiring a multi-step statistical analysis to attempt to order the tested pipelines. The goal of the analysis is to determine which pipeline performs best, and where, as well as which algorithms are not distinguishable from each other. In order to do this we implemented a two-step procedure: First, the scores per dataset for a given paradigm and evaluation are statistically tested in order to see whether there are significant differences between algorithms. If there are, we conduct post-hoc tests to test the ordering of algorithms. The specific steps are as follows:
+Once the scores for a set of pipelines are computed, it is important to ask what
+sort of statements can be made given the results. In particular, how to decide
+which pipelines perform reliably better, and what a reasonable comparison might
+be, are difficult questions to answer. Given thousands of subjects, we can test
+model evidence for complicated models that attempt to untangle the difference
+between human internal factors (e.g. which paradigm works best for a given
+person), recording factors (e.g. which preprocessing steps influence the score),
+and pipeline factors. As it is, however, there is not enough data to consider
+such a question for arbitrarily many pipelines. Therefore, we define the
+automatic statistical pipeline as follows, to attempt to give maximally robust
+results for any number of pipelines on all the current data. The goal of the
+analysis is to determine which pipeline performs best, and where, as well as
+which algorithms are not distinguishable from each other. In order to do this we
+implemented a two-step procedure: First, the scores per dataset for a given
+context are statistically tested in order to see whether there
+are significant differences between algorithms. If there are, we conduct
+post-hoc tests to test the ordering of algorithms. The specific steps are as
+follows:
 
 (todo: make a figure with a flowchart)
 
@@ -82,6 +108,51 @@ Different datasets have differing numbers of subjects and trials, as well as pos
 \end{enumerate}
 
 
+\section{Experiments}
+
+To show off the possibilities of this framework, we ran various well-known BCI
+pipelines from across many papers in order to conduct the first big-data,
+side-by-side analysis of the state of the art in motor imagery BCIs.
+
+\subsection{Context}
+
+As there are many possible motor imagery paradigms and we do not want to induce
+spurious effects due to differences in imagined movement, we limit ourselves to
+only right hand versus left hand imagined imagery, as they are the most
+well-studied BCI paradigms\cite{Yuan2014}. For evaluations, we choose
+within-session cross-validation, as this represents the best-case scenario for
+any pipeline, with minimal non-stationarity. However, we note that this analysis
+is equally simple for cross-subject or cross-time analysis.
+
+\subsubsection{Paradigm}
+As there are many methods that show that multiple frequency bands can lead to
+improved BCI performance\cite{KaiKengAng2008}, we test two preprocessing
+pipelines: A single bandpass containing both the alpha and beta ranges, from
+$8-35\text{Hz}$ and another from $8-35\text{Hz}$ in 2Hz increments. The trial
+length was determined by the native dataset length, and channels were varied
+between all available (ranging from 3 in the case of BNCI dataset 2014-004 to 64
+in the case of the Physionet data) and the largest common subset of C3 and C4.
+TODO: Will we keep the C3/C4 comparison in?
+
+\subsubsection{Evaluation}
+The evaluation was chosen to be within-session, as that minimizes the effect of non-stationarity. As this is a binary classification task, the ROC-AUC score was chosen as the metric to score 5-fold cross validation (the splits were kept identical for all pipelines). 
+TODO: fix up AUC-ROC section.
+\subsection{Pipelines}
+
+Given the amount sheer breadth of models implemented within scikit-learn,
+attempting an exhaustive model comparison would be impossible. Instead, we
+implement a selection of pipelines from the BCI literature, as well as the
+well-known standards of CSP + LDA and channel-level variances + LDA. Specific
+implemented pipelines are as follows; all hyperparameters were set via cross-validation:
+\begin{enumerate}
+  
+\item Log variance from 6 filters from regularized CSP \cite{Lotte2011}, with shrinkage LDA (CITE)
+\item Tangent space projection and classification via linear SVM(CITE)
+\item filter-bank CSP with mutual-information based feature selection of 10 log variances, classification via linear SVM \cite{KaiKengAng2008}
+\item Log variance from 6 filters from Riemannian-mean regularized CSP + SVM
+\item FM features as described in (CITE myself) in addition to channel-level variances, classification via L1-regularized logistic regression. 
+\item Log variance from each channel, classified via L1-regularized logistic regression.
+\end{enumerate}
 
 %%% Local Variables:
 %%% mode: latex
