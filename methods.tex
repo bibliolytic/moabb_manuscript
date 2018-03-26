@@ -47,7 +47,7 @@ as they all have different characteristics in the data and further are variably
 effective across subjects\cite{Scherer2015}. After choosing which events or
 imageries are valid, the question comes to pre-processing of the continuous
 data, in the form of ICA cleaning, bandpass filtering, and so on. These must
-also be identical for valid comparisons across datasets. Lastly, there are
+also be identical for valid comparisons across algorithm or datasets. Lastly, there are
 questions of how to cut the data into trials: What is the trial length and
 overlap; or, in the case of ERP paradigms, how long before and after the event
 marker do we use? The answers to all these questions are summed up in the
@@ -55,7 +55,7 @@ paradigm object.
 
 \subsubsection{Evaluation}
 
-Once the data is split into trials and a pipeline is fixed, there are many ways to train and test this pipeline to minimize overfitting. For datasets with multiple subjects recorded on multiple days, we may want to determine which algorithm functions best in multi-day classification. Or, we may want to determine which algorithm is best for small amounts of data. It is easy to see that there are many possibilities for splitting data into train and test sets, and these must be fixed identically for a given analysis. Furthermore, there is the question of how to report results. Multiclass problems cannot use metrics like the ROC-AUC which provide unbiased estimates of classifier goodness in binary cases; depending on things like the class discrepancy, various metrics have various benefits and pitfalls. Therefore this must also be fixed across all datasets, contingent on the class of predictions the pipelines attempt to make. We define this as our \emph{evaluation}.
+Once the data is split into trials and a pipeline is fixed, there are many ways to train and test this pipeline to minimize overfitting. For datasets with multiple subjects recorded on multiple days, we may want to determine which algorithm functions best in multi-day classification. Or, we may want to determine which algorithm is best for small amounts of data. It is easy to see that there are many possibilities for splitting data into train and test sets, and these must be fixed identically for a given analysis. Furthermore, there is the question of how to report results. Multiclass problems cannot use metrics like the ROC-AUC which provide unbiased estimates of classifier goodness in binary cases; depending on things like the class balance, various metrics have various benefits and pitfalls. Therefore this must also be fixed across all datasets, contingent on the class of predictions the pipelines attempt to make. We define this as our \emph{evaluation}.
 
 \subsection{Pipeline}
 
@@ -132,7 +132,7 @@ $8-35\text{Hz}$ and another from $8-35\text{Hz}$ in 2Hz increments. The trial
 length was determined by the native dataset length, and channels were varied
 between all available (ranging from 3 in the case of BNCI dataset 2014-004 to 64
 in the case of the Physionet data) and the largest common subset of C3 and C4.
-TODO: Will we keep the C3/C4 comparison in?
+TODO: Will we keep the C3/C4 comparison in? -- We dont need to keep it IMO
 
 \subsubsection{Evaluation}
 The evaluation was chosen to be within-session, as that minimizes the effect of non-stationarity. As this is a binary classification task, the ROC-AUC score was chosen as the metric to score 5-fold cross validation (the splits were kept identical for all pipelines). 
