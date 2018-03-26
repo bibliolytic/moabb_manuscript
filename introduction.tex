@@ -12,44 +12,47 @@ Recorded a new dataset, or used one of few tried-and-true datasets that exist in
 the wild.
 
 Recording a new dataset, though an elegant way to show that a proposed method
-works online, presents problems for post-hoc analysis. Without making code and
+works online, presents problems for post-hoc analysis. Without making 
 data public, it is impossible to know whether offline classification results are
 convincing or due to some coding issue or recording artifact. Further, it is
 well-known that differences in hardware (CITE), paradigm (CITE), and
 subject(CITE) can have large differences in the outcome of a BCI task, making it
-very difficult to generalize from any single dataset. Lastly, and possibly most
-problematically, this puts the onus on each individual lab to reproduce the code
-for all other competing methods in order to make a claim to be comparable with
-the 'state-of-the-art.' As a result, the vast majority of novel BCI algorithm
-papers compare either against other work from the same lab, or old standards
-such as CSP \cite{Lotte2011}, with or without regularization, and LDA, or simple
-channel-level variances combined with a classifier of choice. 
+very difficult to generalize findings from any single dataset.
 
-Using some of the standard datasets in the field, however, has its own
-problems. Only in the last year and a half, over a thousand journal and
+When recording a new dataset is not an option, One can turn to some of the standard EEG datasets publicly available. Over the course of the last year and a half, over a thousand journal and
 conference submissions have been written on the BCI Competition III
-\cite{Blankertz2006,Schloegl2005} and IV \cite{Tangermann2012} datasets, using
-selections to validate pipelines for processing EEG data into commands. These
-datasets have been available publically for over a decade, implying that the
-true number of papers which validate results using this data is simply
-astronomical. As a result, and also because even these datasets are never used
-in their entirity but rather piecemeal, the possibility of overfitting, or of
-differences due to mis-coded competitor algorithms, is extremely high.
+\cite{Blankertz2006,Schloegl2005} and IV \cite{Tangermann2012} datasets. Considering that
+these datasets have been available publically for over a decade,  the
+true number of papers which validate results against them is simply
+astronomical. While it is impossible to argue about the impact those two datasets had on the field,
+we must admit that relying so heavily on two dataset composed of a handful of subject each expose us to several issues (such as over-fitting and false positive).
 
-Much as Kaggle (CITE) has unified competition in some other areas of machine
-learning, a platform for standardizing algorithm performance and competition is
-required for BCIs as well. In contrast to other more standard machine learning
-tasks, however, distinctions must be made for the many different possible
-algorithms and metrics when working in BCIs. We propose our platform, the MOABB
+(Moving this here, last 2 paragraph are about datasets)
+Lastly, and possibly most
+problematically, the scarcity of available code for newly published BCI algorithm puts the onus on each individual lab to reproduce the code
+for all other competing methods in order to make a claim to be comparable with
+the 'state-of-the-art' (SOA). As a result, the vast majority of novel BCI algorithm
+papers compare either against other work from the same lab, or old standards
+such as CSP \cite{Lotte2011} (we should cite the original CSP paper), with or without regularization, and LDA, or simple
+channel-level variances combined with a classifier of choice (CITE). 
+
+Theses problems have long been resolved in some other areas of machine
+learning, such as computer vision or natural language processing, where a large
+collection of unified datasets and up-to-date SOA algorithm implementation are available to 
+researchers trough various software package (CITE one).
+Hopefully, a large amount of EEG have been released in the last few years, and software package like MNE (CITE) provide us an easy way to wrap them in a common format. It is now time for the field of BCI create the tools that will help grow the next generation of BCI algorithms. (Meh ...)
+
+We propose our platform, the MOABB
 (Mother Of All BCI Benchmarks) Project, as a candidate for this application. 
 
 As an initial validation of this project, we present results on the constrained
-task of binary classification in left or right hand imagined motor imagery, as
+task of binary classification in left or right hand imagined motor imagery (Why should we restrict to left-right ?), as
 that is the most widely used motor imagery paradigm and allows us to exhibit the
-process across the largest number of datasets. However, the format allows for
+process across the largest number of datasets.
+However, the format allows for
 many other questions, including different channel types (EEG, fNIRS, or other),
 multi-class paradigms, and also transfer learning scenarios as described in
-\cite{Jayaram2016}.
+\cite{Jayaram2016}. -> is this sentence necessary ?
 
 %%% Local Variables:
 %%% mode: latex
