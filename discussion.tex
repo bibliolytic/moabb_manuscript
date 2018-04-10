@@ -1,13 +1,46 @@
-We present a system for reliably comparing BCI pipelines that is both easily
-extended to incorporate new datasets and equipped with an automated statistical
-procedure for determining which pipelines perform best. Furthermore, this system
-defines a simple interface for submitting and validating new BCI pipelines,
-which could serve to unify the many methods that exist so far. To test that
-system, we present results using standard pipelines in contexts that have wide
-relevance to the BCI community. By looking across multiple, large datasets, it is possible to make statements about how BCIs perform on average, without any sort of expert tuning of the processing chain, and further to see where the major pitfalls still lie.
+We present a system for reliably comparing BCI pipelines that is both
+easily extended to incorporate new datasets and equipped with an
+automated statistical procedure for determining which pipelines
+perform best. Furthermore, this system defines a simple interface for
+submitting and validating new BCI pipelines, which could serve to
+unify the many methods that exist so far. To test that system, we
+present results using standard pipelines in contexts that have wide
+relevance to the BCI community. By looking across multiple, large
+datasets, it is possible to make statements about how BCIs perform on
+average, without any sort of expert tuning of the processing chain,
+and further to see where the major pitfalls still lie.
 
-The results of this analysis suggest that sample size and discrepancies in imagery and hardware have had a strong impact on the reproducibility of many BCI algorithms. Although various regularized approaches have been validated separately to outperform the original CSP algorithm, the result here is that none of them appear to make a difference. The only algorithm that reliably out-performs the other methods is the tangent space method, but even then it is not an enormous difference. As has been known for years, the majority of variability within a BCI paradigm is not due to the algorithm, but rather the user. People who do poorly do poorly nearly regardless of the processing used on them (with some exceptions), and those that do well can often manage a simple classification task with even the simplest pipeline.
+The results of this analysis suggest that many well-known methods do
+not reliably out-perform simpler ones, despite the small-scale studies
+done years ago to validate them. In particular, the world of CSP
+regularization literature does not appear to have the effect that was
+originally claimed. It shows, surprisingly, that the
+major difference in BCI classification isn't actually the algorithm, as of now,
+but rather the recording and human paradigm characteristics. The two
+most clear findings to come out of this are that log variances on the
+channel level are almost never better than CSP or Riemannian methods,
+and that the tangent space classification pipeline has the best model
+for single-session classification.
 
+One crucial thing to keep in mind, looking at these results, is that
+this was all done on within-session classification. Within a single
+recording session the non-stationarity that has long plagued BCis is
+kept to a minimum, meaning that regularization is at its least
+effective. The proper conclusion would therefore not be that
+regularization does not help CSP, but rather that regularization is
+not necessary to combat within-recording signal non-stationarity. To
+determine whether regularization helps across time, it is necessary to
+do a cross-session evaluation. Unfortunately, there are fewer datasets
+that have multiple sessions recorded.
+
+The analysis here, though done with over 200 subjects, is still only a
+fraction of the number of subjects recorded for BCI publications over
+the years. With more papers that describe more varied setups, the
+power of this system can only grow, and what this analysis shows most
+clearly is that the sample size problem in BCIs is bigger than we
+might have expected. By gathering the data and offering a system for
+testing algorithms, we hope that this platform in the coming years can
+help to solve it.
 
 %%% Local Variables:
 %%% mode: latex

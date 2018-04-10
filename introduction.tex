@@ -8,48 +8,61 @@ requested task, physical setup, and many other features vary between the
 numerous publically available datasets online, not to mention issues of
 convenience such as file format and documentation. Because of this, the BCI
 methods community has long done one of two things to validate an new approach:
-Recorded a new dataset, or used one of few tried-and-true datasets that exist in
-the wild.
+Recorded a new dataset, or used one of few well-known, tried-and-true datasets.
 
-Recording a new dataset, though an elegant way to show that a proposed method
-works online, presents problems for post-hoc analysis. Without making code and
-data public, it is impossible to know whether offline classification results are
-convincing or due to some coding issue or recording artifact. Further, it is
-well-known that differences in hardware (CITE), paradigm (CITE), and
-subject(CITE) can have large differences in the outcome of a BCI task, making it
-very difficult to generalize from any single dataset. Lastly, and possibly most
-problematically, this puts the onus on each individual lab to reproduce the code
-for all other competing methods in order to make a claim to be comparable with
-the 'state-of-the-art.' As a result, the vast majority of novel BCI algorithm
-papers compare either against other work from the same lab, or old standards
-such as CSP \cite{Lotte2011}, with or without regularization, and LDA, or simple
-channel-level variances combined with a classifier of choice. 
+Recording a new dataset, though an elegant way to show that a proposed
+method works online, presents problems for post-hoc analysis. Without
+making data public, it is impossible to know whether offline
+classification results are convincing or due to some coding issue or
+recording artifact. Further, it is well-known that differences in
+hardware \cite{Searle2000,Lopez-Gordo2014}, paradigm \cite{Allison2010}, and
+subject \cite{Allison2010} can have large differences in the
+outcome of a BCI task, making it very difficult to generalize findings
+from any single dataset.
 
-Using some of the standard datasets in the field, however, has its own
-problems. Only in the last year and a half, over a thousand journal and
-conference submissions have been written on the BCI Competition III
-\cite{Blankertz2006,Schloegl2005} and IV \cite{Tangermann2012} datasets, using
-selections to validate pipelines for processing EEG data into commands. These
-datasets have been available publically for over a decade, implying that the
-true number of papers which validate results using this data is simply
-astronomical. As a result, and also because even these datasets are never used
-in their entirity but rather piecemeal, the possibility of overfitting, or of
-differences due to mis-coded competitor algorithms, is extremely high.
+When recording a new dataset is not an option, One can turn to some of
+the standard EEG datasets publicly available. Over the course of the
+last year and a half, over a thousand journal and conference
+submissions have been written on the BCI Competition III
+\cite{Blankertz2006,Schloegl2005} and IV \cite{Tangermann2012}
+datasets. Considering that these datasets have been available
+publically for over a decade, the true number of papers which validate
+results against them is simply astronomical. While it is impossible to
+argue about the impact those two datasets have had on the field,
+relying so heavily on a small number of datasets, with less than 50
+subjects total, expose the field to several important issues. In
+particular, overfitting to the setups offered there is likely.
 
-Much as Kaggle (CITE) has unified competition in some other areas of machine
-learning, a platform for standardizing algorithm performance and competition is
-required for BCIs as well. In contrast to other more standard machine learning
-tasks, however, distinctions must be made for the many different possible
-algorithms and metrics when working in BCIs. We propose our platform, the MOABB
+Lastly, and possibly most problematically, the scarcity of available
+code for newly published BCI algorithm puts the onus on each
+individual lab to reproduce the code for all other competing methods
+in order to make a claim to be comparable with the 'state-of-the-art'
+(SOA). As a result, the vast majority of novel BCI algorithm papers
+compare either against other work from the same lab, or old standards
+such as CSP \cite{Koles1990},
+with or without regularization, and LDA, or simple channel-level
+variances combined with a classifier of choice \cite{Garrett2003} .
+
+Computer vision has solved this problem with enormous datasets like
+\cite{Deng2009} bundled with a reliance on a small number of software
+packages to create new models, notably Tensorflow, Theano, and
+Pytorch. As BCIs are inextricably linked to human use, it is not
+helpful to create datasets of such size. Rather, the field requires
+as many unique people recording data in many contexts in order to
+create an appropriate benchmark. In contrast to image data, the goal
+of BCI algorithm development is exclusively to create algorithms that
+work on data that has not yet been recorded. We propose our platform, the MOABB
 (Mother Of All BCI Benchmarks) Project, as a candidate for this application. 
 
-As an initial validation of this project, we present results on the constrained
-task of binary classification in left or right hand imagined motor imagery, as
-that is the most widely used motor imagery paradigm and allows us to exhibit the
-process across the largest number of datasets. However, the format allows for
-many other questions, including different channel types (EEG, fNIRS, or other),
-multi-class paradigms, and also transfer learning scenarios as described in
-\cite{Jayaram2016}.
+As an initial validation of this project, we present results on the
+constrained task of binary classification in two-class imagined motor
+imagery, as that is the most widely used motor imagery paradigm and
+allows us to demonstrate the process across the largest number of
+datasets.  However, we note that this is only the first question we
+attempt to answer in this field. The format allows for many other questions,
+including different channel types (EEG, fNIRS, or other), multi-class
+paradigms, and also transfer learning scenarios as described in
+\cite{Jayaram2016}. \vj{...yeah it's a bit gratuitous. Too much?}
 
 %%% Local Variables:
 %%% mode: latex
