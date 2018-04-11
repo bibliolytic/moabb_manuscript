@@ -156,13 +156,20 @@ within-session cross-validation, as this represents the best-case
 scenario for any pipeline, with minimal non-stationarity. 
 
 \subsubsection{Paradigm}
+% As there are many methods that show that multiple frequency bands can
+% lead to improved BCI performance\cite{KaiKengAng2008}, and further
+% that discriminative data is concentrated in the anatomical frequency
+% bands, we test three preprocessing pipelines: A single bandpass
+% containing both the alpha and beta ranges, from $8-32\text{Hz}$,
+% another from $8-32\text{Hz}$ in 4Hz increments, and a third with the
+% $\delta, \theta, \alpha$ and $\beta$ frequencies isolated.
+
 As there are many methods that show that multiple frequency bands can
 lead to improved BCI performance\cite{KaiKengAng2008}, and further
 that discriminative data is concentrated in the anatomical frequency
-bands, we test three preprocessing pipelines: A single bandpass
-containing both the alpha and beta ranges, from $8-32\text{Hz}$,
-another from $8-32\text{Hz}$ in 4Hz increments, and a third with the
-$\delta, \theta, \alpha$ and $\beta$ frequencies isolated.
+bands, we test two preprocessing pipelines: A single bandpass
+containing both the alpha and beta ranges, from $8-32\text{Hz}$, and
+another from $8-32\text{Hz}$ in 4Hz increments.
 
 \subsubsection{Evaluation}
 The evaluation was chosen to be within-session, as that minimizes the
@@ -192,7 +199,7 @@ implemented pipelines are in Table \ref{tab:pipelines}; all hyperparameters were
     FBCSP + optSVM & Filter bank of 6 bands between 8 and 35 Hz followed by OAS covariance estimation and unregularized CSP. Log variance from each of the 4 top filters from each sub-band were pooled and the top 10 features chosen by mutual information were used. & A linear support vector machine was trained with its regularization hyperparameter set by a cross-validated grid-search from $[0.01 100]$. & \cite{KaiKengAng2008} \\ \hline
     TS + optSVM & Trial covariances estimated via OAS then projected into the Riemannian tangent space to obtain features & Linear SVM with identical grid-search & \cite{Barachant2013} \\ \hline
     AM + optSVM & Log variance in each channel & Linear SVM with grid-search & N/A \\ \hline
-    FB-AM + optLR & Log variance from each channel in the five anatomical frequency bands ($\delta, \theta, \alpha, \beta, \gamma$) & To replicate the genetic algorithm and channel selection used in the paper, as well as the linear final boundary, we use a logistic regression classifier with an L1 penalty, hyperparameter optimized via grid search& \cite{Garrett2003} \\
+    % FB-AM + optLR & Log variance from each channel in the five anatomical frequency bands ($\delta, \theta, \alpha, \beta, \gamma$) & To replicate the genetic algorithm and channel selection used in the paper, as well as the linear final boundary, we use a logistic regression classifier with an L1 penalty, hyperparameter optimized via grid search& \cite{Garrett2003} \\
     
   \end{tabular}
   \caption{Processing pipelines}
