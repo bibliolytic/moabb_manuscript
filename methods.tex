@@ -25,6 +25,8 @@ have unified the access to many datasets, described in Table
     BNCI 2015-001 & Right hand, feet & 13 & 400 & 2 & 13 & 3-8s & \cite{Faller2012} \\
     BNCI 2015-004 & Right hand, feet & 30 & 155 & 2 & 10 & 3-10s & \cite{Scherer2015} \\
     Alexandre Motor Imagery & Right hand, feet & 16 & 40 & 1 & 9 & 0-3s & \cite{Barachant2012a}\\
+    Yi et al. 2014 & Right, left hand & 60 & 160 & 1 & 10 & 3-7s & \cite{Yi2014} \\
+    Zhou et al. 2016 & Right, left hand & 14 & 100 & 3 & 4 & 1-6s & \cite{Zhou2016a}\\
     
 \end{tabular}
     \caption{Dataset attributes}
@@ -32,10 +34,10 @@ have unified the access to many datasets, described in Table
 \end{table*}
 
 Adding new datasets that can be found on the internet is also
-simple. The MNE toolkit\cite{Gramfort2014,Gramfort2013} is used for
+simple. The MNE toolkit \cite{Gramfort2014,Gramfort2013} is used for
 all preprocessing and channel selection, so any dataset that can be
 made compatible with their framework can quickly be added to the set
-of data offered by this project. In addition, the project has test
+of data offered by this project. In addition, the project offers test
 functions to ensure candidate code conforms to the software interface.
 
 \subsection{Context}
@@ -43,12 +45,12 @@ functions to ensure candidate code conforms to the software interface.
 A \emph{context} is the set of characteristics that defines the
 preprocessing and validation procedure. To go from a recorded EEG
 time-series to a pipeline performance value for a given subject or
-recording session, many parameters must be defined. Trials need to be
-cut out of the continuous signal and pre-processed, and this is
-possible in many different ways when taking into parameters such as
+recording session, many parameters must be defined. First, trials need to be
+cut out of the continuous signal and pre-processed, which is
+possible in many different ways when taking into account parameters such as
 trial overlap, trial length, imagery type, and more. Once the
 continuous data is processed into trials, and these trials are fed
-into a pipeline, the question of how to create training and test sets,
+into a pipeline, the next question of how to create training and test sets,
 and how to report performance, comes into play. We separate these two
 notions in our software and call them the \emph{paradigm} and the
 \emph{evaluation} respectively.
@@ -56,12 +58,11 @@ notions in our software and call them the \emph{paradigm} and the
 \subsubsection{Paradigm}
 
 A paradigm defines how one goes from continuous data to trials for a
-standard machine learning algorithm to deal with. While not an issue
+standard machine learning pipeline to deal with. While not an issue
 in image processing, it is crucial in EEG and biosignals processing
 because most datasets do not have exactly the same events defined in
-the continuous data. For example, many motor imagery sets use a single
-hand versus both feet imagery, or a single class versus rest; likewise
-there are many non-motor imageries possible. For any reasonable
+the continuous data. For example, many datasets with two-class motor imagery use left versus right hand, while some use hands versus feet; 
+there are also many possible non-motor imageries. For any reasonable
 analysis the specific sort of imagery or ERP must be controlled for,
 as they all have different characteristics in the data and further are
 variably effective across subjects \cite{Scherer2015,Allison2010}. After choosing
@@ -76,21 +77,20 @@ summed up in the paradigm object.
 
 \subsubsection{Evaluation}
 
-Once the data is split into trials and a pipeline is fixed, there are
-many ways to train and test this pipeline to minimize overfitting. For
-datasets with multiple subjects recorded on multiple days, we may want
-to determine which algorithm functions best in multi-day
-classification. Or, we may want to determine which algorithm is best
-for small amounts of data. It is easy to see that there are many
-possibilities for splitting data into train and test sets, and these
-must be fixed identically for a given analysis. Furthermore, there is
-the question of how to report results. Multiclass problems cannot use
-metrics like the ROC-AUC which provide unbiased estimates of
-classifier goodness in binary cases; depending on things like the
-class balance, various metrics have various benefits and
-pitfalls. Therefore this must also be fixed across all datasets,
-contingent on the class of predictions the pipelines attempt to
-make. We define this as our \emph{evaluation}.
+Once the data is split into trials and a pipeline is fixed, there are many ways
+to train and test this pipeline to minimize overfitting. For datasets with
+multiple subjects recorded on multiple days, we may want to determine which
+algorithm functions best in multi-day classification. Or, we may want to
+determine which algorithm is best for small amounts of training data. It is easy
+to see that there are many possibilities for splitting data into train and test
+sets depending on the question to be answered, and these must be fixed
+identically for a given analysis. Furthermore, there is the question of how to
+report results. Multiclass problems cannot use metrics like the ROC-AUC which
+provide unbiased estimates of classifier goodness in binary cases; depending on
+things like the class balance, various other metrics have their own benefits and
+pitfalls. Therefore this must also be fixed across all datasets, contingent on
+the class of predictions the pipelines attempt to make. We define this as our
+\emph{evaluation}.
 
 \subsection{Pipeline}
 
@@ -98,12 +98,12 @@ We define a \emph{pipeline} as the processing that takes one from raw
 trial-wise data into labels, taking both spatial filtering and
 classification model fitting into account. A convenient API for
 dealing with this kind of processing is defined by
-scikit-learn\cite{Pedregosa2011}, which allows for easily definable
+scikit-learn \cite{Pedregosa2011}, which allows for easily definable
 dimensionality reduction, feature generation, and model fitting. To
 maximize reproducibility we allow pipelines to be defined either by
 yaml files or through python files that generate the objects, but
 force all machine learning models to follow the scikit-learn
-interface.
+interface. 
 
 \section{Statistical Analysis}
 \label{stats}
@@ -116,7 +116,7 @@ channel number were held constant, differences in trial amount,
 sampling rate, and even location and hardware mean that we cannot
 expect subjects across datasets to be naively comparable. Simply
 pooling them all and running a paired-sample test would result in
-artificially inflated significance due to these factors. This would
+misleading significances due to these factors. This would
 suggest a mixed-factor ANOVA for every unique pair of pipelines to
 test the null hypothesis that the difference distribution is zero-mean
 over all datasets. However, we have the secondary problem that this
@@ -141,14 +141,14 @@ the test statistics as described in \cite{Noguchi2012}, and we can use
 Bonferroni correction to deal with the fact that each pipeline will
 appear $N_{\text{pipelines}} - 1$ times.
 
-\section{Experiments}
+\section{Experiment}
 
 To show off the possibilities of this framework, we ran various well-known BCI
 pipelines from across many papers in order to conduct the first big-data,
 side-by-side analysis of the state of the art in motor imagery BCIs.
 
 \subsection{Context}
-For the human paradigm, we choose to look at datasets including motor
+For the paradigm, we choose to look at datasets including motor
 imagery.  Motor imagery is the most-studied sort of imagery for BCIs
 \cite{Yuan2014}, and we further limit ourselves to the binary case as
 this has not yet been solved. For evaluations, we choose
@@ -174,11 +174,11 @@ session were averaged when multiple sessions were present.
 
 \subsection{Pipelines}
 
-Given the amount sheer breadth of models implemented within scikit-learn,
+Given the sheer breadth of models implemented within scikit-learn,
 attempting an exhaustive model comparison would be impossible. Instead, we
 implement a selection of pipelines from the BCI literature, as well as the
-well-known standards of CSP + LDA and channel-level variances + LDA. Specific
-implemented pipelines are as follows; all hyperparameters were set via cross-validation:
+well-known standards of CSP + LDA and channel-level variances + SVM. Specific
+implemented pipelines are in Table \ref{tab:pipelines}; all hyperparameters were set via cross-validation.
 \begin{table*}
   \centering
   \begin{tabular}{ l || p{6cm} | p{6cm} | c | }

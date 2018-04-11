@@ -14,8 +14,13 @@
     "IEEEtran10"
     "amsmath"
     "graphicx"
+    "tikz"
+    "color"
+    "cite"
     "subcaption")
    (TeX-add-symbols
+    '("vj" 1)
+    '("ab" 1)
     '("blfootnote" 1))
    (LaTeX-add-bibliographies
     "library.bib"))

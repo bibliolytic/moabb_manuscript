@@ -1,5 +1,5 @@
 Brain-computer interfaces (BCIs) have long presented the neuroscience methods
-community with a unique challenge. Unlike fields like vision research, where one
+community with a unique challenge. Unlike in vision research, where one
 simply has a database of images and labels, a BCI is defined by a signal
 recorded from the brain and fed into a computer, which can be influenced in any
 number of ways both by the subject and by the experimenter. As a result,
@@ -20,35 +20,34 @@ subject \cite{Allison2010} can have large differences in the
 outcome of a BCI task, making it very difficult to generalize findings
 from any single dataset.
 
-When recording a new dataset is not an option, One can turn to some of
-the standard EEG datasets publicly available. Over the course of the
-last year and a half, over a thousand journal and conference
-submissions have been written on the BCI Competition III
-\cite{Blankertz2006,Schloegl2005} and IV \cite{Tangermann2012}
-datasets. Considering that these datasets have been available
-publically for over a decade, the true number of papers which validate
-results against them is simply astronomical. While it is impossible to
-argue about the impact those two datasets have had on the field,
-relying so heavily on a small number of datasets, with less than 50
-subjects total, expose the field to several important issues. In
-particular, overfitting to the setups offered there is likely.
+Over the years many datasets have been published online, and serve as an
+attractive option when time or hardware do not permit recording a new one. In
+the last year and a half, over a thousand journal and conference submissions
+have been written on the BCI Competition III \cite{Blankertz2006,Schloegl2005}
+and IV \cite{Tangermann2012} datasets. Considering that these datasets have been
+available publically for over a decade, the true number of papers which validate
+results against them is simply astronomical. While it is impossible to deny
+the impact these two datasets have had on the field, relying so heavily on
+a small number of datasets -- with less than 50 subjects total -- exposes the field
+to several important issues. In particular, overfitting to the setups offered
+there is likely.
 
 Lastly, and possibly most problematically, the scarcity of available
-code for newly published BCI algorithm puts the onus on each
+code for BCI algorithms old and new puts the onus on each
 individual lab to reproduce the code for all other competing methods
 in order to make a claim to be comparable with the 'state-of-the-art'
 (SOA). As a result, the vast majority of novel BCI algorithm papers
 compare either against other work from the same lab, or old standards
-such as CSP \cite{Koles1990},
-with or without regularization, and LDA, or simple channel-level
-variances combined with a classifier of choice \cite{Garrett2003} .
+such as CSP \cite{Koles1990} or simple channel-level
+variances combined with a classifier of choice \cite{Garrett2003},
+both of which can be implemented in just a few lines of code in Python and MATLAB.
 
 Computer vision has solved this problem with enormous datasets like
 \cite{Deng2009} bundled with a reliance on a small number of software
 packages to create new models, notably Tensorflow, Theano, and
 Pytorch. As BCIs are inextricably linked to human use, it is not
-helpful to create datasets of such size. Rather, the field requires
-as many unique people recording data in many contexts in order to
+reasonable to create datasets of such size. Rather, the field requires
+many different people recording data in many contexts in order to
 create an appropriate benchmark. In contrast to image data, the goal
 of BCI algorithm development is exclusively to create algorithms that
 work on data that has not yet been recorded. We propose our platform, the MOABB
