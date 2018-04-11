@@ -2,6 +2,8 @@
  "methods"
  (lambda ()
    (LaTeX-add-labels
-    "stats"))
+    "fig:datasets"
+    "stats"
+    "tab:pipelines"))
  :latex)
 
