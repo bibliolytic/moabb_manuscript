@@ -13,7 +13,6 @@ The ranking plot is intended to be a quick way of ordering algorithms, based on
 the statistical significance returned by the procedure described in Section
 \ref{stats}. It describes which pipelines significantly out-performed others
 across all datasets.
-(TODO still a small bug)
 
 \subsubsection{Paired plot}
 Figures \ref{fig:am} and \ref{fig:csp} show ranking plots. In order to
@@ -45,7 +44,7 @@ processing chain. Surprisingly, perhaps, the pipelines do not clearly
 cluster on the dataset level, making it unclear which ones perform
 best from simply this plot. What is very clear, however, is that
 different datasets have very different average scores
-independent of pipeline.
+independent of pipeline. The overall ranking of algortihms can be found in Figure \ref{fig:rank}.
 
 Figure \ref{fig:am} shows the pairwise comparison of the log
 variance-based pipeline with CSP and the tangent space SVM. What is
@@ -72,6 +71,16 @@ and the increase in feature number).
     \caption{Visualization of all generated scores, across all datasets.}
     \label{fig:all}
 \end{figure*}
+
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{Figures/ordering.pdf}
+    \caption{Ranking of algorithms in performance across all datasets with statistics generated as defined in section \ref{stats}.}
+    \label{fig:all}
+\end{figure*}
+
+
 \begin{figure*}
     \centering
     \begin{subfigure}{0.5\textwidth}
