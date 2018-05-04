@@ -1,6 +1,6 @@
 Brain-computer interfaces (BCIs) have long presented the neuroscience methods
 community with a unique challenge. Unlike in vision research, where one
-simply has a database of images and labels, a BCI is defined by a signal
+has a database of images and labels, a BCI is defined by a signal
 recorded from the brain and fed into a computer, which can be influenced in any
 number of ways both by the subject and by the experimenter. As a result,
 validating approaches has always been a difficult task. Number of channels,
@@ -10,8 +10,8 @@ convenience such as file format and documentation. Because of this, the BCI
 methods community has long done one of two things to validate an new approach:
 Recorded a new dataset, or used one of few well-known, tried-and-true datasets.
 
-Recording a new dataset, though an elegant way to show that a proposed
-method works online, presents problems for post-hoc analysis. Without
+Recording a new dataset, the ideal way to show that a proposed
+method works in practice, presents problems for post-hoc analysis. Without
 making data public, it is impossible to know whether offline
 classification results are convincing or due to some coding issue or
 recording artifact. Further, it is well-known that differences in
@@ -26,21 +26,19 @@ the last year and a half, over a thousand journal and conference submissions
 have been written on the BCI Competition III \cite{Blankertz2006,Schloegl2005}
 and IV \cite{Tangermann2012} datasets. Considering that these datasets have been
 available publically for over a decade, the true number of papers which validate
-results against them is simply astronomical. While it is impossible to deny
+results against them is likely much higher. While it is impossible to deny
 the impact these two datasets have had on the field, relying so heavily on
 a small number of datasets -- with less than 50 subjects total -- exposes the field
 to several important issues. In particular, overfitting to the setups offered
 there is likely.
 
-Lastly, and possibly most problematically, the scarcity of available
-code for BCI algorithms old and new puts the onus on each
-individual lab to reproduce the code for all other competing methods
-in order to make a claim to be comparable with the 'state-of-the-art'
-(SOA). As a result, the vast majority of novel BCI algorithm papers
-compare either against other work from the same lab, or old standards
-such as CSP \cite{Koles1990} or simple channel-level
-variances combined with a classifier of choice \cite{Garrett2003},
-both of which can be implemented in just a few lines of code in Python and MATLAB.
+Lastly, and possibly most problematically, the scarcity of available code for
+BCI algorithms old and new puts the onus on each individual lab to reproduce the
+code for all other competing methods in order to make a claim to be comparable
+with the 'state-of-the-art' (SOA). As a result, the vast majority of novel BCI
+algorithm papers compare either against other work from the same lab, or old,
+easily implementable standards such as CSP \cite{Koles1990} or
+channel-level variances combined with a classifier of choice \cite{Garrett2003}.
 
 Computer vision has solved this problem with enormous datasets like
 \cite{Deng2009} bundled with a reliance on a small number of software
@@ -61,7 +59,7 @@ datasets.  However, we note that this is only the first question we
 attempt to answer in this field. The format allows for many other questions,
 including different channel types (EEG, fNIRS, or other), multi-class
 paradigms, and also transfer learning scenarios as described in
-\cite{Jayaram2016}. \vj{...yeah it's a bit gratuitous. Too much?}
+\cite{Jayaram2016}. 
 
 %%% Local Variables:
 %%% mode: latex

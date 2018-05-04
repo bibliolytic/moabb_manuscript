@@ -6,3 +6,4 @@ auto/
 *.aux
 *.bcf
 *.blg
+*.el

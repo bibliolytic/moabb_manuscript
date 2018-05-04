@@ -3,7 +3,6 @@
 \usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{color}
-\usepackage{cite}
 \usetikzlibrary{shapes,arrows}
 \usepackage{subcaption}
 \newcommand\blfootnote[1]{%
@@ -16,7 +15,8 @@
 \newcommand{\ab}[1]{\textcolor{red}{#1}}
 \newcommand{\vj}[1]{\textcolor{blue}{#1}}
 
-% \usepackage[style=ieee,backend=bibtex]{biblatex}
+\usepackage[style=ieee,backend=bibtex, maxbibnames=5]{biblatex}
+\bibliography{library.bib}
 \title{MOABB: Trustworthy algorithm benchmarking for BCIs}
 \author{
   \IEEEauthorblockN
@@ -61,9 +61,20 @@
 \input{results.tex}
 \section{Discussion}
 \input{discussion.tex}
-\bibliographystyle{IEEEtran}
-\bibliography{library.bib}
+\section{Conclusion}
+We present the MOABB project, a codebase that simplifies the application of
+machine learning methods to EEG data and provides an interface to reliable,
+reproducible BCI methods results. We validate the initial version of this
+analysis using 275 subjects drawn from many different labs and published
+open-access online, and show that with more data many previously validated
+conclusions come into question.
+
+\section*{Acknowledgements}
+We would like to extend our thanks to Professor Marco Congedo for his valuable
+input regarding the appropriate statistical procedure for this analysis.
+
 \blfootnote{corresponding author: Vinay Jayaram (email: vjayaram@tue.mpg.de)}
+\printbibliography
 \end{document}
 
 %%% Local Variables:
